@@ -34,4 +34,18 @@ const getBlogById = async (req: Request, res: Response) => {
     }
 };
 
-module.exports = { createBlog, getBlogs, getBlogById };
+const updateBlogById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const blogData = req.body;
+        const blog = await blogService.updateBlogById(id, blogData);
+        res.status(200).json(blog);
+    } catch (error: any) {
+        if (error instanceof HTTPError)
+            res.status(error.code).json(error.message);
+        else
+            res.status(500).json(error.message);
+    }
+};
+
+module.exports = { createBlog, getBlogs, getBlogById, updateBlogById };

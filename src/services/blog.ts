@@ -28,4 +28,13 @@ const getBlogById = async (id: number) => {
     return blog;
 };
 
-module.exports = { createBlog, getBlogs, getBlogById };
+const updateBlogById = async (id: number, blogData: BlogData) => {
+    const blog = await db.Blog.findOne({ where: { id } });
+    if (!blog) {
+        throw new HTTPError('Blog not found', 404);
+    }
+    const updatedBlog = await blog.update(blogData);
+    return updatedBlog;
+};
+
+module.exports = { createBlog, getBlogs, getBlogById, updateBlogById };
