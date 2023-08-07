@@ -162,5 +162,7 @@ Example Response:
 }
 ```
 
-##Improvements
-
+## Improvements
+1. Paginate the `GET` API 
+2. Implement search feature to search for blogs by their titles,content
+3. Have a user system to credit the author
