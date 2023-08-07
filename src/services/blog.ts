@@ -10,15 +10,29 @@ type BlogData = {
     category: string;
 };
 
+type Options = {
+    sort?: string;
+    filter?: string;
+}
+
 const createBlog = async (blogData: BlogData) => {
     const blog = await db.Blog.create(blogData);
     return blog;
 };
 
-const getBlogs = async () => {
-    const blogs = await db.Blog.findAll({});
+const getBlogs = async (options: Options) => {
+    let blogs = await db.Blog.findAll({});
+    if (options.filter) {
+        blogs = blogs.filter(blog => blog.category === options.filter);
+    }
+    if (options.sort) {
+        if (options.sort === 'name') {
+            blogs = blogs.sort((a, b) => { return a.title.localeCompare(b.title) });
+        }
+    };
+
     return blogs;
-};
+}
 
 const getBlogById = async (id: number) => {
     const blog = await db.Blog.findOne({ where: { id } });

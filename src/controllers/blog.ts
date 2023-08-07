@@ -14,7 +14,8 @@ const createBlog = async (req: Request, res: Response) => {
 
 const getBlogs = async (req: Request, res: Response) => {
     try {
-        const blogs = await blogService.getBlogs();
+        const options = req.query;
+        const blogs = await blogService.getBlogs(options);
         res.status(200).json(blogs);
     } catch (error: any) {
         res.status(500).json(error.message);
