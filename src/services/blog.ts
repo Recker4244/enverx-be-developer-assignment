@@ -1,7 +1,4 @@
-const { Sequelize } = require('sequelize');
-import { options } from 'joi';
 import db from '../../database/models';
-import { BlogInstance } from '../../database/models/blog';
 const HTTPError = require('../utils/errors/http_errors');
 
 type BlogData = {
