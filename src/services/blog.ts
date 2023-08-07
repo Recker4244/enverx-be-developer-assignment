@@ -26,6 +26,9 @@ const getBlogs = async (options: Options) => {
         if (options.sort === 'name') {
             blogs = blogs.sort((a, b) => { return a.title.localeCompare(b.title) });
         }
+        else if (options.sort === 'date') {
+            blogs = blogs.sort((a, b) => { return a.createdAt.getTime() - b.createdAt.getTime() });
+        }
     };
 
     return blogs;
