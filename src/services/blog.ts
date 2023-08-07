@@ -37,4 +37,13 @@ const updateBlogById = async (id: number, blogData: BlogData) => {
     return updatedBlog;
 };
 
-module.exports = { createBlog, getBlogs, getBlogById, updateBlogById };
+const deleteBlogById = async (id: number) => {
+    const blog = await db.Blog.findOne({ where: { id } });
+    if (!blog) {
+        throw new HTTPError('Blog not found', 404);
+    }
+    await blog.destroy();
+    return blog;
+};
+
+module.exports = { createBlog, getBlogs, getBlogById, updateBlogById, deleteBlogById };

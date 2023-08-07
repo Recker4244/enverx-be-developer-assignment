@@ -48,4 +48,17 @@ const updateBlogById = async (req: Request, res: Response) => {
     }
 };
 
-module.exports = { createBlog, getBlogs, getBlogById, updateBlogById };
+const deleteBlogById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const blog = await blogService.deleteBlogById(id);
+        res.status(200).json(blog);
+    } catch (error: any) {
+        if (error instanceof HTTPError)
+            res.status(error.code).json(error.message);
+        else
+            res.status(500).json(error.message);
+    }
+}
+
+module.exports = { createBlog, getBlogs, getBlogById, updateBlogById, deleteBlogById };
