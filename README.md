@@ -1,52 +1,163 @@
-[![N|Solid](https://iili.io/Hi9giog.png)](https://www.enverx.com/)
+# Blog Post Web Service
+This is a simple blog application RESTful API built with Node.js, Express.js, TypeScript, and PostgreSQL. The API allows you to perform CRUD operations on blog posts and store them in a PostgreSQL database. 
+## Pre-requisites
 
-EnverX offers a simple and convenient platform to fund early-stage projects
-and trade future carbon credits.
+- Install [Node v19.5+](https://nodejs.org/en/download/)
+## Project setup
 
-## _Assginment For Backend Developer Role_
-
-### Instructions
-``` diff
-- Fork this repository
-- Take a fresh `pull`
-- Create a `development` branch
-- `Push` the updated code after task completion
-Note: Make sure to add proper `commit` messages
+- Clone the repository and navigate to the project directory.
+- Perform `npm install` at command line.
+- Create an empty postgres database.
+- Define the environment variables in a `.env` file like below:
 ```
+DB_NAME=<database name to connect to>
+DB_USER=<username to be used for database>
+DB_PASS=<password to be used for database>
+DB_HOST=<hostname to connect to for database>
+DB_PORT=<port to connect to database>
+PORT=<port to run the application on>
+```
+- Run the command `npm run start` to run migrations, seed the database and start the server in development mode. This starts `nodemon`, which restarts the server for any changes in the source files.
+## Usage
+### Create a Blog Post
 
-### Task Requirements
-1. Create a RESTful API for a simple blog application.
-2. Use Node.js and Express.js as the backend framework.
-3. Implement CRUD (Create, Read, Update, Delete) operations for blog posts.
-4. Store the blog posts in a dB
-5. Include validation for the API endpoints to ensure data integrity.
-6. Implement error handling and return appropriate HTTP status codes.
-7. Use Git for version control and host the project on GitHub.
-8. Write clear and concise documentation on how to set up and use the API.
-9. Use Typescript to get a Bonus point.
+Creates a Blog Post
 
-### Functional Requirements
-1. Set up a new Node.js project and initialize it with a package.json file.
-2. Create the necessary Express.js routes and controllers for CRUD operations on blog posts.
+- **URL**: `/posts`
+- **Method**: `POST`
+- **Request  Body**:
+  - `title`: Title of the Blog Post. Example: `Sample Title`
+  - `content`: Content of the Blog Post. Example: `Lorem Ipsum ....`
+  - `category`: Category of the Blog Post. Example: `Technology`
 
-- `GET /posts` - Get all blog posts (Mandatory: Apply sorting based on created Date, blog name and filters based on category).
-- `GET /posts/:id` - Get a specific blog post by ID.
-- `POST /posts` - Create a new blog post.
-- `PUT /posts/:id` - Update an existing blog post.
-- `DELETE /posts/:id` - Delete a blog post.
+#### Response
 
-3. Implement validation for the API endpoints to ensure the data is correct and complete.
-4. Handle errors gracefully and return appropriate HTTP status codes (e.g., 404 for not found, 500 for server errors, etc.).
-5. Test the API endpoints using a tool like Postman or cURL.
-6. Write a README.md file with instructions on setting up the project, running it, and using the API.
-7. Initialize a Git repository, commit your code regularly, and push it to GitHub.
-8. Optionally, include any additional features or improvements you think would enhance the API.
+A JSON object containing the created blog post.
 
-### Timeline
-The estimated time to complete this assignment is 6-7 hours, but it may vary based on your familiarity and experience with the technologies.
+Example Response:
 
-### To Be Considered
-1. The submitted code should be plagiarism free otherwise your application will be disqualified
-2. Please complete the assignment and submit it to us by the submission deadline assigned to you. 
-3. follow the instructions carefully, as we will evaluate your code, documentation, and adherence to best practices. Once you have finished, please send us the GitHub repository link.
-4. If you have any questions or need further clarification, please don't hesitate to reach out to us at hr@enverx.com. We look forward to reviewing your work and discussing it with you in the next stage of the interview process.
+```json
+{
+    "id": 2,
+    "title": "Sample Title",
+    "content": "Lorem Ipsum ....",
+    "category": "Technology",
+    "createdAt": "2023-08-07T14:59:22.830Z",
+    "updatedAt": "2023-08-07T14:59:22.830Z"
+}
+```
+### Get All Blog Posts
+
+Retrieves a list of all blog posts. Supports sorting based on either created date or title of blog and filters based on category.
+
+- **URL**: `/posts`
+- **Method**: `GET`
+- **Query Parameters**:
+  - `sort`: Optional. Sorts the blog posts based on either created date or blog title. Example: `sort=date,name`
+  - `category`: Optional. Filters the blog posts based on the specified category. Example: `category=Technology`
+
+#### Response
+
+A JSON array containing a list of blog posts.
+
+Example Response:
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Sample Title 1",
+    "content": "Lorem ipsum dolor sit amet...",
+    "createdAt": "2023-08-07T12:00:00Z",
+    "updatedAt": "2023-08-07T12:00:00Z",
+    "category": "Technology"
+  },
+  {
+    "id": 2,
+    "title": "Sample Title 2",
+    "content": "Another blog post content...",
+    "createdAt": "2023-08-06T10:30:00Z",
+    "updatedAt": "2023-08-06T10:30:00Z",
+    "category": "Food",
+  }
+]
+```
+### Get Blog Post By ID
+
+Retrieves a blog post by it's ID
+
+- **URL**: `/posts/:id`
+- **Method**: `GET`
+- **Path Variables**:
+  - `id`: ID of the blog
+
+#### Response
+
+A JSON object containing the blog post.
+
+Example Response:
+
+```json
+{
+    "id": 2,
+    "title": "demo",
+    "content": "demo text",
+    "category": "demo",
+    "createdAt": "2023-08-07T14:59:22.830Z",
+    "updatedAt": "2023-08-07T14:59:22.830Z"
+}
+```
+### Update a Blog Post
+
+Updates a Blog Post By ID
+
+- **URL**: `/posts/:id`
+- **Method**: `PUT`
+- **Path Variables**:
+  - `id`: ID of the blog
+- **Request  Body**:
+  - `title`: Title of the Blog Post. Example: `Sample Title 2`
+  - `content`: Content of the Blog Post. Example: `Lorem Ipsum ....`
+  - `category`: Category of the Blog Post. Example: `Technology`
+
+#### Response
+
+A JSON object containing the updated blog post.
+
+Example Response:
+
+```json
+{
+    "id": 2,
+    "title": "Sample Title 2",
+    "content": "Lorem Ipsum ....",
+    "category": "Technology",
+    "createdAt": "2023-08-07T14:59:22.830Z",
+    "updatedAt": "2023-08-07T14:59:22.830Z"
+}
+```
+### Delete a Blog Post
+
+Deletes a Blog Post By ID
+
+- **URL**: `/posts/:id`
+- **Method**: `DELETE`
+- **Path Variables**:
+  - `id`: ID of the blog
+
+#### Response
+
+A JSON object containing the deleted blog post.
+
+Example Response:
+
+```json
+{
+    "id": 2,
+    "title": "Sample Title 2",
+    "content": "Lorem Ipsum ....",
+    "category": "Technology",
+    "createdAt": "2023-08-07T14:59:22.830Z",
+    "updatedAt": "2023-08-07T14:59:22.830Z"
+}
+```
